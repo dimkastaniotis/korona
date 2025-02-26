@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Νόμος των Μεγάλων Αριθμών</title>
+</head>
+<body>
+    <h2>Προσομοίωση Ρίψεων Νομίσματος</h2>
+    <form method="post">
+        <label for="num_tosses">Αριθμός ρίψεων:</label>
+        <input type="number" id="num_tosses" name="num_tosses" required>
+        <button type="submit">Υπολογισμός</button>
+    </form>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if probability_plot %}
+        <h3>Αποτέλεσμα:</h3>
+        <img src="{{ probability_plot }}" alt="Γράφημα πιθανότητας">
+    {% endif %}
+</body>
+</html>
