@@ -6,22 +6,30 @@ import os
 app = Flask(__name__)
 
 def simulate_coin_tosses(n):
-    """Προσομοίωση ρίψεων νομίσματος και επιστροφή της σύγκλισης της πιθανότητας"""
+    """Προσομοίωση ρίψεων νομίσματος και επιστροφή δεδομένων"""
     outcomes = np.random.choice(["Κορώνα", "Γράμματα"], size=n)
-    heads_count = np.cumsum(outcomes == "Κορώνα")
-    probabilities = heads_count / np.arange(1, n+1)
-    return probabilities
+    heads_count = np.sum(outcomes == "Κορώνα")
+    tails_count = n - heads_count
+
+    heads_percentage = (heads_count / n) * 100
+    tails_percentage = (tails_count / n) * 100
+
+    heads_probabilities = np.cumsum(outcomes == "Κορώνα") / np.arange(1, n+1)
+    
+    return heads_count, tails_count, heads_percentage, tails_percentage, heads_probabilities
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     probability_plot = None
+    heads_count = tails_count = heads_percentage = tails_percentage = None
+
     if request.method == "POST":
         try:
             n = int(request.form["num_tosses"])
             if n <= 0:
                 raise ValueError("Ο αριθμός των ρίψεων πρέπει να είναι θετικός.")
 
-            probabilities = simulate_coin_tosses(n)
+            heads_count, tails_count, heads_percentage, tails_percentage, probabilities = simulate_coin_tosses(n)
 
             # Δημιουργία διαγράμματος
             plt.figure(figsize=(8, 5))
@@ -40,7 +48,12 @@ def index():
         except ValueError:
             return render_template("index.html", error="Δώστε έναν έγκυρο αριθμό ρίψεων.")
 
-    return render_template("index.html", probability_plot=probability_plot)
+    return render_template("index.html", 
+                           probability_plot=probability_plot,
+                           heads_count=heads_count, 
+                           tails_count=tails_count,
+                           heads_percentage=heads_percentage, 
+                           tails_percentage=tails_percentage)
 
 if __name__ == "__main__":
     app.run(debug=True)
