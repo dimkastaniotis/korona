@@ -4,9 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Νόμος των Μεγάλων Αριθμών</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .instructions { background-color: #f9f9f9; padding: 10px; border-left: 4px solid #007bff; }
+        .results { margin-top: 20px; }
+    </style>
 </head>
 <body>
     <h2>Προσομοίωση Ρίψεων Νομίσματος</h2>
+
+    <div class="instructions">
+        <h3>📖 Τι είναι ο Νόμος των Μεγάλων Αριθμών;</h3>
+        <p>Ο Νόμος των Μεγάλων Αριθμών λέει ότι όσο περισσότερες φορές επαναλαμβάνουμε ένα πείραμα, τόσο πιο κοντά το αποτέλεσμα πλησιάζει στη θεωρητική πιθανότητα.</p>
+        <p>🔹 **Παράδειγμα:** Αν ρίξουμε ένα νόμισμα πολλές φορές, η αναλογία των "Κορώνα" και "Γράμματα" θα πλησιάζει το 50%-50%.</p>
+        <h3>🛠 Πώς να χρησιμοποιήσεις την εφαρμογή</h3>
+        <ol>
+            <li>Εισάγεις έναν αριθμό ρίψεων (π.χ. 1000).</li>
+            <li>Πατάς "Υπολογισμός".</li>
+            <li>Βλέπεις τα αποτελέσματα και το γράφημα.</li>
+        </ol>
+        <p>💡 Δοκίμασε διαφορετικές τιμές (π.χ. 10, 1000, 100000) και δες τη διαφορά!</p>
+    </div>
+
     <form method="post">
         <label for="num_tosses">Αριθμός ρίψεων:</label>
         <input type="number" id="num_tosses" name="num_tosses" required>
@@ -18,12 +37,14 @@
     {% endif %}
 
     {% if probability_plot %}
-        <h3>Αποτελέσματα:</h3>
-        <p>🔵 Κορώνα: {{ heads_count }} ({{ heads_percentage|round(2) }}%)</p>
-        <p>🟠 Γράμματα: {{ tails_count }} ({{ tails_percentage|round(2) }}%)</p>
-
-        <h3>Γράφημα:</h3>
-        <img src="{{ probability_plot }}" alt="Γράφημα πιθανότητας">
+        <div class="results">
+            <h3>Αποτελέσματα:</h3>
+            <p>🔵 Κορώνα: {{ heads_count }} ({{ heads_percentage|round(2) }}%)</p>
+            <p>🟠 Γράμματα: {{ tails_count }} ({{ tails_percentage|round(2) }}%)</p>
+            
+            <h3>Γράφημα:</h3>
+            <img src="{{ probability_plot }}" alt="Γράφημα πιθανότητας">
+        </div>
     {% endif %}
 </body>
 </html>
