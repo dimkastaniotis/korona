@@ -15,8 +15,9 @@ def simulate_coin_tosses(n):
     tails_percentage = (tails_count / n) * 100
 
     heads_probabilities = np.cumsum(outcomes == "Κορώνα") / np.arange(1, n+1)
-    
-    return heads_count, tails_count, heads_percentage, tails_percentage, heads_probabilities
+    tails_probabilities = np.cumsum(outcomes == "Γράμματα") / np.arange(1, n+1)
+
+    return heads_count, tails_count, heads_percentage, tails_percentage, heads_probabilities, tails_probabilities
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -29,14 +30,15 @@ def index():
             if n <= 0:
                 raise ValueError("Ο αριθμός των ρίψεων πρέπει να είναι θετικός.")
 
-            heads_count, tails_count, heads_percentage, tails_percentage, probabilities = simulate_coin_tosses(n)
+            heads_count, tails_count, heads_percentage, tails_percentage, heads_probabilities, tails_probabilities = simulate_coin_tosses(n)
 
             # Δημιουργία διαγράμματος
             plt.figure(figsize=(8, 5))
-            plt.plot(probabilities, label="Σχετική συχνότητα Κορώνας", color="blue")
+            plt.plot(heads_probabilities, label="Σχετική συχνότητα Κορώνας", color="blue")
+            plt.plot(tails_probabilities, label="Σχετική συχνότητα Γραμμάτων", color="orange")
             plt.axhline(y=0.5, color="red", linestyle="--", label="Θεωρητική πιθανότητα 50%")
             plt.xlabel("Αριθμός ρίψεων")
-            plt.ylabel("Πιθανότητα Κορώνας")
+            plt.ylabel("Σχετική συχνότητα")
             plt.legend()
             plt.title("Νόμος των Μεγάλων Αριθμών - Ρίψεις νομίσματος")
 
