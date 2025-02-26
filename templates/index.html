@@ -18,7 +18,11 @@
     {% endif %}
 
     {% if probability_plot %}
-        <h3>Αποτέλεσμα:</h3>
+        <h3>Αποτελέσματα:</h3>
+        <p>🔵 Κορώνα: {{ heads_count }} ({{ heads_percentage|round(2) }}%)</p>
+        <p>🟠 Γράμματα: {{ tails_count }} ({{ tails_percentage|round(2) }}%)</p>
+
+        <h3>Γράφημα:</h3>
         <img src="{{ probability_plot }}" alt="Γράφημα πιθανότητας">
     {% endif %}
 </body>
